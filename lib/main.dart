@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/expenses.dart';
+import 'package:flutter_app/widgets/expenses.dart';
 
 void main() {
-  runApp(const MaterialApp(
-    home: Expenses(),
+  runApp(MaterialApp(
+    theme: ThemeData(useMaterial3: true),
+    home: const Expenses(),
   ));
 }
