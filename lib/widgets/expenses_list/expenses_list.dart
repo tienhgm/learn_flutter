@@ -13,6 +13,11 @@ class ExpensesList extends StatelessWidget {
         physics: const ScrollPhysics(parent: BouncingScrollPhysics()),
         itemCount: expenses.length,
         itemBuilder: (context, idx) => Dismissible(
+            background: Container(
+              color: Theme.of(context).colorScheme.error.withOpacity(0.5),
+              margin: EdgeInsets.symmetric(
+                  horizontal: Theme.of(context).cardTheme.margin!.horizontal),
+            ),
             key: ValueKey(expenses[idx]),
             onDismissed: (direction) {
               onRemoveExpense(expenses[idx]);

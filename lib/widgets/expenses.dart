@@ -28,7 +28,8 @@ class _ExpensesState extends State<Expenses> {
   void _openAddExpenseOverlay() {
     //...
     showModalBottomSheet(
-        // isScrollControlled: true,
+        isScrollControlled: true,
+        useSafeArea: true,
         context: context,
         builder: (context) => NewExpense(onAddExpense: _addExpense));
   }
@@ -44,7 +45,7 @@ class _ExpensesState extends State<Expenses> {
     setState(() {
       _registeredExpenses.remove(expense);
     });
-     ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       duration: const Duration(seconds: 2),
       content: const Text('Expense deleted.'),
@@ -60,6 +61,8 @@ class _ExpensesState extends State<Expenses> {
 
   @override
   Widget build(BuildContext context) {
+    // Lấy kích thước device
+    final width = MediaQuery.of(context).size.width;
     Widget mainContent = const Center(
       child: Text('No expense found. Start adding some!'),
     );
@@ -71,6 +74,7 @@ class _ExpensesState extends State<Expenses> {
     }
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text('Flutter ExpenseTracker'),
         actions: [
           IconButton(
@@ -78,12 +82,19 @@ class _ExpensesState extends State<Expenses> {
         ],
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            const Text('The chart'),
-            Expanded(child: mainContent),
-          ],
-        ),
+        child: width < 600
+            ? Column(
+                children: [
+                  const Text('The chart'),
+                  Expanded(child: mainContent),
+                ],
+              )
+            : Row(
+                children: [
+                  const Expanded(child: Text('The chart')),
+                  Expanded(child: mainContent),
+                ],
+              ),
       ),
     );
   }
