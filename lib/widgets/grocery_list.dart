@@ -3,6 +3,7 @@ import 'package:flutter_app/data/dummy_items.dart';
 // import 'package:flutter_app/data/dummy_items.dart';
 import 'package:flutter_app/models/grocery_item.dart';
 import 'package:flutter_app/widgets/new_item.dart';
+import 'package:http/http.dart' as http;
 
 class GroceryList extends StatefulWidget {
   const GroceryList({super.key});
@@ -14,12 +15,12 @@ class GroceryList extends StatefulWidget {
 class _GroceryState extends State<GroceryList> {
   final List<GroceryItem> _groceryItems = [];
   void _addItem(BuildContext context) async {
-    final newItem = await Navigator.of(context).push<GroceryItem>(
+    await Navigator.of(context).push<GroceryItem>(
         MaterialPageRoute(builder: (ctx) => const NewItem()));
-    if (newItem == null) return;
-    setState(() {
-      _groceryItems.add(newItem);
-    });
+    final url = Uri.https('flutter-learn-963e5-default-rtdb.firebaseio.com',
+        'shopping-list.json');
+    final response = await http.get(url);
+    print(response);
   }
 
   void _removeItem(GroceryItem item) {
